@@ -67,19 +67,17 @@ angular.module('hey', [])
      */
     function stop (event, cb) {
       var group = listeners[event];
-      var matches;
+      var i;
 
-      if (!cb) {
-        matches = group;
-      } else {
-        matches = filter(group, function (listener) {
-          return listener.cb === cb;
-        });
+      function shouldBeDeleted (listener) {
+        return cb ? listener.cb === cb : true;
       }
 
-      angular.forEach(matches, function (listener) {
-        listener.destroy();
-      });
+      for (i = group.length - 1; i > -1; i--) {
+        if (shouldBeDeleted(group[i])) {
+          group.splice(i, 1)[0].destroy();
+        }
+      }
     }
 
 
