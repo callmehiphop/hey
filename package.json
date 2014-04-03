@@ -1,6 +1,6 @@
 {
   "name": "hey",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "devDependencies": {
     "grunt": "^0.4.2",
     "time-grunt": "^0.3.1",

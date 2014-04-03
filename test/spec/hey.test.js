@@ -61,6 +61,19 @@ describe('hey', function () {
       expect(handler.callCount).toBe(1);
     });
 
+    it('should leave all other event handlers alone', function () {
+      var handler = jasmine.createSpy();
+      var otherHandler = jasmine.createSpy();
+
+      hey.listen('fake.event', handler);
+      hey.listen('fake.event', otherHandler);
+      hey.stop('fake.event', handler);
+      $rootScope.$emit('fake.event');
+
+      expect(handler.callCount).toBe(0);
+      expect(otherHandler.callCount).toBe(1);
+    });
+
     it('should remove all event handlers when one is not supplied', function () {
       var handler = jasmine.createSpy();
       var otherHandler = jasmine.createSpy();
