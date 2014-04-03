@@ -49,6 +49,12 @@ angular.module('hey', [])
           destroy: (scope || $rootScope).$on(event, cb),
           cb: cb
         });
+
+        if (scope) {
+          scope.$on('destroy', function () {
+            stop(event, cb);
+          });
+        }
       }
 
 
