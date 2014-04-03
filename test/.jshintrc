@@ -1,0 +1,13 @@
+{
+  "globals": {
+    "angular": false,
+    "describe": false,
+    "it": false,
+    "module": false,
+    "inject": false,
+    "beforeEach": false,
+    "afterEach": false,
+    "spyOn": false,
+    "jasmine": false
+  }
+}

@@ -66,7 +66,7 @@ angular.module('hey', [])
      * @param {function} callback
      */
     function stop (event, cb) {
-      var group = listerners[event];
+      var group = listeners[event];
       var matches;
 
       if (!cb) {

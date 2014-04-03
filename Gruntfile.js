@@ -8,12 +8,24 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
 
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js'
+      }
+    },
+
     jshint: {
       options: {
         jshintrc: true,
         reporter: require('jshint-stylish')
       },
-      all: ['hey.js']
+      all: ['hey.js'],
+      test: {
+        options: {
+          jshintrc: 'test/.jshintrc'
+        },
+        src: ['test/spec/{,*/}*.js']
+      }
     },
 
     clean: {
@@ -39,7 +51,7 @@ module.exports = function (grunt) {
   });
 
 
-  grunt.registerTask('test', ['jshint']);
+  grunt.registerTask('test', ['karma', 'jshint']);
   grunt.registerTask('dist', [
     'test',
     'clean:dist',
