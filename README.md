@@ -1,7 +1,5 @@
-<img src="/navi.jpg" align="right">
-
-hey!
-----
+<img src="/navi.jpg" height="75px"> hey!
+----------------------------------------
 
 > pub/sub abstraction layer for AngularJS to make managing your events easier
 
