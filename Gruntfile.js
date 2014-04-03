@@ -46,17 +46,27 @@ module.exports = function (grunt) {
           'hey.min.js': '.tmp/hey.js'
         }
       }
+    },
+
+    bump: {
+      options: {
+        files: ['bower.json', 'package.json'],
+        commit: false
+      }
     }
 
   });
 
 
   grunt.registerTask('test', ['karma', 'jshint']);
+
   grunt.registerTask('dist', [
     'test',
     'clean:dist',
     'ngmin:dist',
     'uglify:dist'
   ]);
+
+  grunt.registerTask('release', ['dist', 'bump']);
 
 };

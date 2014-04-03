@@ -1,6 +1,26 @@
 {
   "name": "hey",
   "version": "0.0.1",
+  "description": "pub/sub wrapper for AngularJS events",
+  "license": "MIT",
+  "main": "hey.js",
+  "ignore": [
+    "*",
+    "!*hey*.js",
+    "!README.md"
+  ],
+  "keywords": [
+    "angular",
+    "events",
+    "pubsub"
+  ],
+  "authors": [
+    "Dave Gramlich <callmehiphop@gmail.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/callmehiphop/hey.git"
+  },
   "dependencies": {
     "angular": "^1.0.7"
   },
