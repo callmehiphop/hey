@@ -5,9 +5,17 @@
   "license": "MIT",
   "main": "hey.js",
   "ignore": [
-    "*",
-    "!*hey*.js",
-    "!README.md"
+    "test",
+    ".bowerrc",
+    ".editorconfig",
+    ".gitignore",
+    ".jshintrc",
+    "bower.json",
+    "Gruntfile.js",
+    "karma.conf.js",
+    "navi.jpg",
+    "package.json",
+    "package.json"
   ],
   "keywords": [
     "angular",
