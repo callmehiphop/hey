@@ -51,7 +51,7 @@ angular.module('hey', [])
         });
 
         if (scope) {
-          scope.$on('destroy', function () {
+          scope.$on('$destroy', function () {
             stop(event, cb);
           });
         }
