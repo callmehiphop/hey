@@ -99,7 +99,7 @@ angular.module('hey', [])
 
       return {
         listen: listen,
-        listenOnce: listenOnce,
+        once: listenOnce,
         stop: stop
       };
 
