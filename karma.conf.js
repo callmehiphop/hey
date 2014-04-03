@@ -22,11 +22,12 @@ module.exports = function(config) {
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage', 'spec'
-    reporters: ['progress'],
+    reporters: ['spec'],
 
     plugins: [
       'karma-jasmine',
       'karma-phantomjs-launcher',
+      'karma-spec-reporter'
     ],
 
 
@@ -40,7 +41,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: 'LOG_DEBUG',
+    logLevel: config.LOG_DISABLE,
 
 
     // enable / disable watching file and executing tests whenever any file changes
