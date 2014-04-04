@@ -42,8 +42,10 @@ describe('hey', function () {
 
       hey.listen('fake.event', handler);
       $rootScope.$emit('fake.event');
+      $rootScope.$emit('fake.event');
 
       expect(handler).toHaveBeenCalled();
+      expect(handler.callCount).toBe(2);
     });
 
   });
@@ -57,6 +59,7 @@ describe('hey', function () {
       hey.listen('fake.event', handler);
       $rootScope.$emit('fake.event');
       hey.stop('fake.event', handler);
+      $rootScope.$emit('fake.event');
 
       expect(handler.callCount).toBe(1);
     });
