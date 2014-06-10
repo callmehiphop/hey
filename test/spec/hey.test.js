@@ -2,6 +2,7 @@ describe('hey', function () {
 
   'use strict';
 
+  /** @type {Hey} */
   var hey;
   var $rootScope;
 
@@ -107,4 +108,42 @@ describe('hey', function () {
 
   });
 
+  describe('#emit()', function () {
+
+    it('should emit an event on the root scope', function () {
+      var handler = jasmine.createSpy();
+
+      hey.listen('fake.event', handler);
+      hey.emit('fake.event');
+
+      expect(handler.callCount).toBe(1);
+    });
+
+    it('should emit an event on a child scope and bubble it upwards', function () {
+      var rootHandler = jasmine.createSpy();
+      var subHandler = jasmine.createSpy();
+      var $scope = $rootScope.$new();
+
+      hey.listen('fake.event', rootHandler, $rootScope);
+      hey.listen('fake.event', subHandler, $scope);
+      hey.emit('fake.event', null, $scope);
+
+      expect(rootHandler.callCount).toBe(1);
+      expect(subHandler.callCount).toBe(1);
+    });
+
+    it('should emit an event on the root scope and not push it downwards', function () {
+      var rootHandler = jasmine.createSpy();
+      var subHandler = jasmine.createSpy();
+      var $scope = $rootScope.$new();
+
+      hey.listen('fake.event', rootHandler, $rootScope);
+      hey.listen('fake.event', subHandler, $scope);
+      hey.emit('fake.event', null, $rootScope);
+
+      expect(rootHandler.callCount).toBe(1);
+      expect(subHandler.callCount).toBe(0);
+    });
+
+  });
 });

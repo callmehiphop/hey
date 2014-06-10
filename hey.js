@@ -3,74 +3,46 @@ angular.module('hey', [])
 
     'use strict';
 
-
-    // map of the guilty!
     var listeners = {};
 
-
-
     /**
-     * Filter polyfill of sorts
-     * @param {array} array!
-     * @param {function} callback
-     * @return {array} filtered array
+     * Adds a listener to a given event
+     * @param {string} eventName Name of the evening which will be listened for
+     * @param {function} callback Function called when the listened event is emitted
+     * @param {object} [$scope=$rootScope] Optional scope to which the event will be bound
      */
-    function filter (arr, cb) {
-      if (arr.filter) {
-        return arr.filter(cb);
+    function listen(eventName, callback, $scope) {
+      if (!listeners[eventName]) {
+        listeners[eventName] = [];
       }
 
-      var results = [];
-
-      angular.forEach(arr, function (listener) {
-        if (cb(listener)) {
-          results.push(listener);
-        }
+      listeners[eventName].push({
+        destroy: ($scope || $rootScope).$on(eventName, callback),
+        cb: callback
       });
 
-      return results;
-    }
-
-
-
-    /**
-     * Creates a listener object for a particular event
-     * @param {string} event
-     * @param {function} event handler
-     * @param {object} $scope to be used (optional)
-     */
-    function listen (event, cb, scope) {
-      if (!listeners[event]) {
-        listeners[event] = [];
-      }
-
-      listeners[event].push({
-        destroy: (scope || $rootScope).$on(event, cb),
-        cb: cb
-      });
-
-      if (scope) {
-        scope.$on('$destroy', function () {
-          stop(event, cb);
+      if ($scope) {
+        $scope.$on('$destroy', function () {
+          stop(eventName, callback);
         });
       }
     }
 
 
-
     /**
-     * Destroys listeners, if a callback is specified it it will
-     * attempt to match that particular callback otherwise it'll
-     * destroy all handlers matching the specified event
-     * @param {string} event name
-     * @param {function} callback
+     * Removes listeners from the scope regardless of the scope to which they were added.
+     * If a callback is provided it will only remove that single callback, otherwise all
+     * listeners listening to the given event will be removed.
+     *
+     * @param {string} eventName Name of the even which listeners should be removed
+     * @param {function} [callback] Optionally a single callback which should be removed
      */
-    function stop (event, cb) {
-      var group = listeners[event];
+    function stop(eventName, callback) {
+      var group = listeners[eventName];
       var i = group.length - 1;
 
-      function shouldBeDeleted (listener) {
-        return cb ? listener.cb === cb : true;
+      function shouldBeDeleted(listener) {
+        return callback ? listener.cb === callback : true;
       }
 
       for (; i > -1; i--) {
@@ -81,29 +53,41 @@ angular.module('hey', [])
     }
 
 
-
     /**
-     * Binds a listener that will only execute one time and
-     * then the listener gets destroyed
-     * @param {string} event name
-     * @param {function} callback
-     * @param {object} $scope to be used (optional)
+     * Add a listener that will only listen once and then will be removed
+     * @param {string} eventName Name of the event which is listened to
+     * @param {function} callback Function to be called when event is emitted
+     * @param {object} [$scope=$rootScope] Optional scope to which the listener is added
      */
-    function listenOnce (event, cb, scope) {
-      function handler () {
-        stop(event, handler);
-        cb.apply(null, arguments);
+    function listenOnce(eventName, callback, $scope) {
+      function handler() {
+        stop(eventName, handler);
+        callback.apply(null, arguments);
       }
 
-      listen(event, handler, scope);
+      listen(eventName, handler, $scope);
     }
 
+    /**
+     * Emits an event in a given scope and bubbles it upwards
+     * @see {@link https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$emit|$emit documentation on angularJS} for more information
+     * how emitting an event works in Angular
+     * @param {string} eventName Name of the event to emit
+     * @param {*} [args] Additional data to be sent with the event
+     * @param {object} [$scope=$rootScope] Optional scope in which to emit the event
+     * @return {Object} Event object
+     */
+    function emit(eventName, args, $scope) {
+      return ($scope || $rootScope).$emit(eventName, args);
+    }
 
-
+    /**
+     * @class Hey
+     */
     return {
       listen: listen,
       once: listenOnce,
-      stop: stop
+      stop: stop,
+      emit: emit
     };
-
   });
