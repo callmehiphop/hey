@@ -23,7 +23,8 @@
     "pubsub"
   ],
   "authors": [
-    "Dave Gramlich <callmehiphop@gmail.com>"
+    "Dave Gramlich <callmehiphop@gmail.com>",
+    "Maurycy Zarzycki <maurycy.zarzycki@mauft.com> (http://retrocade.net)"
   ],
   "repository": {
     "type": "git",
